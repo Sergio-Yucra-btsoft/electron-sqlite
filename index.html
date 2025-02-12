@@ -4,23 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Test Database</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-    li {
-      padding: 10px;
-      border-bottom: 1px solid #ccc;
-    }
-  </style>
 </head>
 <body>
   <h1>Test Records</h1>
+  <ul id="test-list">
+  </ul>
 
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const testList = document.getElementById('test-list');
+
+      if (window.api) {
+        window.api.getTests()
+          .then((data) => {
+            data.forEach(test => {
+              const li = document.createElement('li');
+              li.textContent = `${test.id} - ${test.name}`;
+              testList.appendChild(li);
+            });
+          })
+          .catch((err) => console.error("Error al obtener los datos:", err));
+      } else {
+        console.error("window.api is undefined");
+      }
+    });
+  </script>
 </body>
 </html>
